@@ -1,7 +1,9 @@
 import React, { Fragment } from 'react'
 import { useHistory } from 'react-router-dom'
+import { UserMachineAction, useUserMachine } from '../states/user.machine'
 
 export const About: React.FC = () => {
+  const [, send] = useUserMachine()
   const history = useHistory()
 
   return (
@@ -20,6 +22,15 @@ export const About: React.FC = () => {
         onClick={() => history.push('/')}
       >
         Go back
+      </button>
+
+      <button
+        type="button"
+        className="btn"
+        cy-data="go-back-button"
+        onClick={() => send({ type: UserMachineAction.LOGOUT })}
+      >
+        Logout
       </button>
     </Fragment>
   )
