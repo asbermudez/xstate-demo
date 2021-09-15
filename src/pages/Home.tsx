@@ -1,5 +1,9 @@
 import React from 'react'
-import { useUserMachine, UserMachineAction } from '../states/user.machine'
+import {
+  useUserMachine,
+  UserMachineAction,
+  UserMachineState,
+} from '../states/user.machine'
 
 export const Home: React.FC = () => {
   const [state, send] = useUserMachine()
@@ -24,12 +28,21 @@ export const Home: React.FC = () => {
         Create React App template and bootstrapped with Redux, React Router,
         TypeScript, ESlint, Prettier for you. Take a look around ;)
       </p>
-      <button type="button" className="btn" onClick={() => login()}>
-        Login
-      </button>
-      <button type="button" className="btn" onClick={() => logout()}>
-        Logout
-      </button>
+      {state.name !== UserMachineState.LOGGED_IN && (
+        <button
+          type="button"
+          className="btn"
+          disabled={state.name === UserMachineState.LOADING}
+          onClick={() => login()}
+        >
+          Login
+        </button>
+      )}
+      {state.name === UserMachineState.LOGGED_IN && (
+        <button type="button" className="btn" onClick={() => logout()}>
+          Logout
+        </button>
+      )}
     </>
   )
 }
